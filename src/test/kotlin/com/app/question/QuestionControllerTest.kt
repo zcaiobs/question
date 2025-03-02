@@ -5,9 +5,11 @@ import com.app.question.repository.QuestionRepository
 import com.app.question.service.QuestionService
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.transaction.Transactional
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -28,16 +30,10 @@ import java.util.UUID
 class QuestionControllerTest {
 
     @Mock
-    lateinit var awsMock: DefaultCacheAwareContextLoaderDelegate
-
-    @Mock
     lateinit var s3Client: S3Client
 
     @Mock
     lateinit var s3Presigner: S3Presigner
-
-    @InjectMocks
-    lateinit var questionService: QuestionService
 
     @Autowired
     lateinit var mockMvc: MockMvc
@@ -47,6 +43,12 @@ class QuestionControllerTest {
 
     @Autowired
     lateinit var repository: QuestionRepository
+
+    @BeforeEach
+    fun setup() {
+        // Configurações adicionais ou mocks quando necessário
+        MockitoAnnotations.openMocks(this)
+    }
 
     @Test
     fun teste() {
