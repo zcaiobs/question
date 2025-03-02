@@ -2,14 +2,9 @@ package com.app.question
 
 import com.app.question.domain.Question
 import com.app.question.repository.QuestionRepository
-import com.app.question.service.QuestionService
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.transaction.Transactional
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -20,8 +15,6 @@ import org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDele
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
-import software.amazon.awssdk.services.s3.S3Client
-import software.amazon.awssdk.services.s3.presigner.S3Presigner
 import java.util.UUID
 
 @Transactional
@@ -29,11 +22,8 @@ import java.util.UUID
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class QuestionControllerTest {
 
-    @Mock
-    lateinit var s3Client: S3Client
-
-    @Mock
-    lateinit var s3Presigner: S3Presigner
+    @MockBean
+    lateinit var aws: DefaultCacheAwareContextLoaderDelegate
 
     @Autowired
     lateinit var mockMvc: MockMvc
@@ -43,12 +33,6 @@ class QuestionControllerTest {
 
     @Autowired
     lateinit var repository: QuestionRepository
-
-    @BeforeEach
-    fun setup() {
-        // Configurações adicionais ou mocks quando necessário
-        MockitoAnnotations.openMocks(this)
-    }
 
     @Test
     fun teste() {
