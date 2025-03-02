@@ -26,6 +26,9 @@ repositories {
 }
 
 dependencies {
+	implementation("io.awspring.cloud:spring-cloud-aws-starter-s3:3.3.0")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("io.micrometer:micrometer-registry-datadog")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-security")

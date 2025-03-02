@@ -30,6 +30,10 @@ class SecurityConfig {
             .csrf { it.disable() }
             .authorizeHttpRequests { requests ->
                 requests
+                    .requestMatchers( "/v1/images").permitAll()
+                    .requestMatchers( "/v1/images/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/actuator").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                     .requestMatchers(HttpMethod.GET, path).permitAll()
                     .requestMatchers(HttpMethod.POST, path).hasRole("USER")
                     .requestMatchers(HttpMethod.PUT, path).hasRole("USER")
