@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithMockUser
+import org.springframework.test.context.CacheAwareContextLoaderDelegate
 import org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
@@ -23,7 +24,7 @@ import java.util.UUID
 class QuestionControllerTest {
 
     @MockBean
-    lateinit var aws: DefaultCacheAwareContextLoaderDelegate
+    lateinit var aws: CacheAwareContextLoaderDelegate
 
     @Autowired
     lateinit var mockMvc: MockMvc
