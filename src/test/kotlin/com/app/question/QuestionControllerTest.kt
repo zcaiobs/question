@@ -2,14 +2,18 @@ package com.app.question
 
 import com.app.question.domain.Question
 import com.app.question.repository.QuestionRepository
+import com.app.question.service.QuestionService
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.transaction.Transactional
 import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithMockUser
+import org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
@@ -19,6 +23,12 @@ import java.util.UUID
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class QuestionControllerTest {
+
+    @Mock
+    lateinit var awsMock: DefaultCacheAwareContextLoaderDelegate
+
+    @InjectMocks
+    lateinit var questionService: QuestionService
 
     @Autowired
     lateinit var mockMvc: MockMvc
