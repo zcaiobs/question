@@ -49,7 +49,10 @@ var:
   secret-access-key: ${AWS_SECRET_KEY:secret-access-key}
   region: us-east-1
 
-aws:
-  enabled: false
+cloud:
+  aws:
+    s3:
+      enabled: false
+
 
 
