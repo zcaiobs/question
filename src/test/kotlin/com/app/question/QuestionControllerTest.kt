@@ -1,22 +1,34 @@
 package com.app.question
 
+import com.app.question.config.S3Config
 import com.app.question.domain.Question
 import com.app.question.repository.QuestionRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.transaction.Transactional
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.ComponentScan
+import org.springframework.context.annotation.FilterType
+import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import software.amazon.awssdk.services.s3.S3Client
+import software.amazon.awssdk.services.s3.presigner.S3Presigner
 import java.util.UUID
 
 @Transactional
 @AutoConfigureMockMvc
+@Import(AwsMockConfig::class) // Importa a configuração de mocks
+@ComponentScan(
+    basePackages = ["com.app.question.config"],
+    excludeFilters = [ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = [S3Config::class])]
+)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class QuestionControllerTest {
 
@@ -28,6 +40,12 @@ class QuestionControllerTest {
 
     @Autowired
     lateinit var repository: QuestionRepository
+
+    @Autowired
+    lateinit var s3Client: S3Client  // Certifique-se de que está sendo injetado corretamente
+
+    @Autowired
+    lateinit var s3Presigner: S3Presigner
 
     @Test
     fun teste() {
