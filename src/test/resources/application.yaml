@@ -44,11 +44,6 @@ management:
         enabled: false
         uri: "https://us5.datadoghq.com"
 
-var:
-  access-key-id: ${AWS_ACCESS_KEY:access-key-id}
-  secret-access-key: ${AWS_SECRET_KEY:secret-access-key}
-  region: us-east-1
-
 cloud:
   aws:
     s3:

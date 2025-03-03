@@ -5,12 +5,10 @@ import com.app.question.domain.Question
 import com.app.question.repository.QuestionRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.transaction.Transactional
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.FilterType
 import org.springframework.context.annotation.Import
@@ -19,8 +17,6 @@ import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
-import software.amazon.awssdk.services.s3.S3Client
-import software.amazon.awssdk.services.s3.presigner.S3Presigner
 import java.util.UUID
 
 @Transactional
@@ -32,12 +28,6 @@ import java.util.UUID
 )
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class QuestionControllerTest {
-
-    @MockBean
-    lateinit var presigner: S3Presigner
-
-    @MockBean
-    lateinit var s3Client: S3Client
 
     @Autowired
     lateinit var mockMvc: MockMvc

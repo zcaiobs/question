@@ -38,6 +38,12 @@ jobs:
       - name: Clear Gradle Cache
         run: ./gradlew clean
 
+      - name: Configurar variáveis de ambiente falsas para AWS
+        run: |
+              echo "AWS_ACCESS_KEY_ID=fake_key" >> $GITHUB_ENV
+              echo "AWS_SECRET_ACCESS_KEY=fake_secret" >> $GITHUB_ENV
+              echo "AWS_REGION=us-east-1" >> $GITHUB_ENV
+
       - name: Run tests with Gradle
         run: ./gradlew test --exclude-task testClasses --stacktrace --info --debug
         continue-on-error: true  # Isso permitirá que o processo continue mesmo que os testes falhem
