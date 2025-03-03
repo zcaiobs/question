@@ -1,10 +1,10 @@
-FROM gradle:7.3.3-jdk17 AS build
+FROM gradle:jdk21-alpine AS build
 
 WORKDIR /app
 
 # Copia apenas arquivos necessários para dependências, otimizando cache
-COPY app/build.gradle app/settings.gradle app/gradlew ./
-RUN chmod +x gradlew && ./gradlew dependencies
+#COPY build.gradle settings.gradle gradlew ./
+#RUN chmod +x gradlew && ./gradlew dependencies
 
 # Copia todo o projeto
 COPY . .
@@ -13,7 +13,7 @@ COPY . .
 RUN ./gradlew build --no-daemon
 
 # Etapa 2: Imagem final
-FROM openjdk:17-jdk-slim AS final
+FROM gradle:jdk21-alpine AS final
 
 # Diretório de trabalho para a aplicação final
 WORKDIR /app
