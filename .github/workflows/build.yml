@@ -46,8 +46,8 @@ jobs:
       # Definir nome da imagem e tag
       - name: Set image name and tag variables
         run: |
-          IMAGE_NAME=${{ vars.IMAGE_NAME }}  # Pegando o nome da imagem dos secrets
-          IMAGE_TAG=${{ github.sha }}           # Pegando o hash do commit como tag
+          echo "IMAGE_NAME=${{ secrets.IMAGE_NAME }}" >> $GITHUB_ENV
+          echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
