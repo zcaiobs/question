@@ -1,6 +1,5 @@
 package com.app.question
 
-import com.app.question.config.S3Config
 import com.app.question.domain.Question
 import com.app.question.repository.QuestionRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -10,9 +9,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.context.annotation.ComponentScan
-import org.springframework.context.annotation.FilterType
-import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.MockMvc
@@ -20,20 +16,15 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import java.util.UUID
 
-@Transactional
-@AutoConfigureMockMvc
-@Import(AwsMockConfig::class) // Importa a configuração de mocks
-@ComponentScan(
-    basePackages = ["com.app.question.config"],
-    excludeFilters = [ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = [S3Config::class])]
-)
+//@Transactional
+//@AutoConfigureMockMvc
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class QuestionControllerTest {
 
     @Test
-    fun teste2() {
+    fun teste() {
         val condicao = true
-        Assertions.assertEquals(true, condicao)
+        Assertions.assertTrue(condicao)
     }
 
 //    @Autowired
@@ -44,7 +35,7 @@ class QuestionControllerTest {
 //
 //    @Autowired
 //    lateinit var repository: QuestionRepository
-//
+
 //    @Test
 //    fun teste() {
 //        mockMvc.perform( MockMvcRequestBuilders.get("/v1/questions/test")
