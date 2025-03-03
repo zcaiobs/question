@@ -47,6 +47,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      - name: Check secrets environment variables
+        run: |
+          echo "AWS Region: $AWS_REGION"
+
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
         env:
