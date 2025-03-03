@@ -49,6 +49,8 @@ jobs:
 
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
+        with:
+          region: us-east-1  # Adicione a região aqui
 
       - name: Build Docker image
         run: |
