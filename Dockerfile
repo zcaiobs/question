@@ -1,10 +1,8 @@
+# Etapa 2: Imagem final
 FROM gradle:jdk21-alpine AS build
 
+# Diretório de trabalho para a aplicação final
 WORKDIR /app
-
-# Copia apenas arquivos necessários para dependências, otimizando cache
-#COPY build.gradle settings.gradle gradlew ./
-#RUN chmod +x gradlew && ./gradlew dependencies
 
 # Copia todo o projeto
 COPY . .
