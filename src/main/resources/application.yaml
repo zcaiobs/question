@@ -25,8 +25,6 @@ spring:
 logging:
   level:
     org.hibernate.orm.connections.pooling: error
-    io.micrometer: debug
-    org.springframework.web.multipart: debug
 
 management:
   endpoints:
@@ -41,12 +39,7 @@ management:
       export:
         api-key: ${DATADOG_API_KEY}
         step: 10s
-        enabled: true
+        enabled: false
         uri: "https://us5.datadoghq.com"
-
-var:
-  access-key-id: ${AWS_ACCESS_KEY}
-  secret-access-key: ${AWS_SECRET_KEY}
-  region: us-east-1
 
 

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Primary
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.presigner.S3Presigner
 
-@TestConfiguration
+@TestConfiguration(proxyBeanMethods = true)
 class AwsMockConfig {
     @Bean
     @Primary
