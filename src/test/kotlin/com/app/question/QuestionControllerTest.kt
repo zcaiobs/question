@@ -18,6 +18,8 @@ import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import software.amazon.awssdk.services.s3.S3Client
+import software.amazon.awssdk.services.s3.presigner.S3Presigner
 import java.util.UUID
 
 @Transactional
@@ -38,6 +40,12 @@ class QuestionControllerTest {
 
     @Autowired
     lateinit var repository: QuestionRepository
+
+    @Autowired
+    lateinit var s3Client: S3Client  // Certifique-se de que está sendo injetado corretamente
+
+    @Autowired
+    lateinit var s3Presigner: S3Presigner
 
     @Test
     fun teste() {
