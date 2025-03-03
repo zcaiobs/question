@@ -68,7 +68,6 @@ jobs:
   # Job de Deploy
   deploy:
     runs-on: ubuntu-latest
-    needs: build  # Esse job depende que o job de build tenha sido executado com sucesso
     if: github.event.pull_request.merged == true  # Só executa o deploy se o PR foi mesclado
 
     steps:
