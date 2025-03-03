@@ -26,7 +26,7 @@ import java.util.UUID
 @AutoConfigureMockMvc
 @Import(AwsMockConfig::class) // Importa a configuração de mocks
 @ComponentScan(
-    basePackages = ["com.app.question"],
+    basePackages = ["com.app.question.config"],
     excludeFilters = [ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = [S3Config::class])]
 )
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
