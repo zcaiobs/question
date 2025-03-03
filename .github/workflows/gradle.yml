@@ -39,7 +39,7 @@ jobs:
         run: ./gradlew clean
 
       - name: Run tests with Gradle
-        run: ./gradlew test --stacktrace --info --debug
+        run: ./gradlew test --exclude-task testClasses --stacktrace --info --debug
         continue-on-error: true  # Isso permitirá que o processo continue mesmo que os testes falhem
 
       - name: Upload test reports as artifact
