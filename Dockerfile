@@ -1,29 +1,37 @@
-# Etapa 1: Construir a aplicação
+# Etapa 1: Construção da aplicação
 FROM gradle:7.3.3-jdk17 AS build
+
+# Instalar dependências adicionais necessárias para o sistema de arquivos
+RUN apt-get update && apt-get install -y \
+    fslint \
+    procps \
+    lsof \
+    && rm -rf /var/lib/apt/lists/*
 
 # Diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copia os arquivos de build
+# Copiar os arquivos do projeto para o diretório de trabalho
 COPY . .
 
-# Executa o build
-RUN gradle build --no-daemon
+# Garantir que o diretório tenha as permissões corretas
+RUN chmod -R 777 /app
+
+# Executar o build com o Gradle Wrapper
+RUN ./gradlew build --no-daemon
 
 # Etapa 2: Imagem final
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk-slim AS final
 
-# Variável de ambiente para permitir que o Spring Boot ou outro aplicativo busque arquivos de configuração
-ENV SPRING_PROFILES_ACTIVE=prod
-
-# Diretório onde a aplicação será executada
+# Diretório de trabalho para a aplicação final
 WORKDIR /app
 
-# Copia o arquivo JAR gerado pela etapa de build
-COPY --from=build /app/build/libs/*.jar app.jar
+# Copiar os artefatos do build da etapa anterior
+COPY --from=build /app/build/libs /app/libs
 
-# Expõe a porta que o aplicativo irá usar
+# Expor a porta onde o serviço será executado
 EXPOSE 8080
 
-# Comando para rodar a aplicação
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+# Definir o comando para rodar a aplicação Java
+CMD ["java", "-jar", "/app/libs/seu-jar-application.jar"]
+
