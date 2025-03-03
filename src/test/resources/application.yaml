@@ -46,6 +46,13 @@ management:
 
 cloud:
   aws:
+    credentials:
+      access-key: fake_key
+      secret-key: fake_secret
+    region:
+      static: us-east-1
+    stack:
+      auto: false
     s3:
       enabled: false
 

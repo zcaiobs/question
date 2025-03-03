@@ -5,6 +5,7 @@ import com.app.question.domain.Question
 import com.app.question.repository.QuestionRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.transaction.Transactional
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -17,6 +18,8 @@ import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import software.amazon.awssdk.services.s3.S3Client
+import software.amazon.awssdk.services.s3.presigner.S3Presigner
 import java.util.UUID
 
 @Transactional
@@ -37,6 +40,18 @@ class QuestionControllerTest {
 
     @Autowired
     lateinit var repository: QuestionRepository
+
+    @Autowired
+    lateinit var s3Client: S3Client // Verifique se este mock está sendo injetado
+
+    @Autowired
+    lateinit var s3Presigner: S3Presigner
+
+    @Test
+    fun `Testar injecao dos mocks`() {
+       Assertions.assertNotNull(s3Client, "S3Client não foi injetado corretamente")
+       Assertions.assertNotNull(s3Presigner, "S3Presigner não foi injetado corretamente")
+    }
 
     @Test
     fun teste() {
