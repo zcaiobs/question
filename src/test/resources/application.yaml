@@ -39,9 +39,9 @@ management:
   datadog:
     metrics:
       export:
-        api-key: ${DATADOG_API_KEY}
+        api-key: ${DATADOG_API_KEY:api-key}
         step: 10s
-        enabled: true
+        enabled: false
         uri: "https://us5.datadoghq.com"
 
 var:
