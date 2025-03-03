@@ -1,21 +1,20 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
-
-name: Java CI with Gradle
+name: Java CI/CD with Gradle
 
 on:
   pull_request:
-    types: ["closed"]   # 🚀 Só executa quando o PR for fechado
-    branches: [ "master" ]
+    types:
+      - opened      # Quando o PR for aberto
+      - synchronize # Quando o PR for atualizado
+      - reopened    # Quando o PR for reaberto
+      - closed      # Só executa quando o PR for fechado
+    branches: [ "master" ]  # Filtra apenas PRs para a branch "master"
 
 jobs:
+  # Job de Build
   build:
-    environment: secrets
     runs-on: ubuntu-latest
+    environment: secrets
+    if: github.event.pull_request.state == 'open'  # Executa apenas quando o PR estiver aberto
 
     steps:
       - name: Checkout sources
@@ -47,14 +46,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Check secrets environment variables
-        run: |
-          echo "AWS Region: ${{ secrets.AWS_REGION }}"
-
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}  # Utilize os secrets configurados
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
 
@@ -70,31 +65,13 @@ jobs:
         run: |
           docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/question-image-ecr:latest
 
-    # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
-    # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
-    #
-    # - name: Setup Gradle
-    #   uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-    #   with:
-    #     gradle-version: '8.9'
-    #
-    # - name: Build with Gradle 8.9
-    #   run: gradle build
-
-  dependency-submission:
+  # Job de Deploy
+  deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    needs: build  # Esse job depende que o job de build tenha sido executado com sucesso
+    if: github.event.pull_request.merged == true  # Só executa o deploy se o PR foi mesclado
 
     steps:
-      - name: Checkout sources
-        uses: actions/checkout@v4
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: 21
-
-      - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@v4
+      - name: Exibir mensagem de deploy
+        run: |
+          echo "O deploy foi iniciado para a nova versão do código!"
