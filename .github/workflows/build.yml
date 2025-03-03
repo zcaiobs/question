@@ -8,9 +8,8 @@
 name: Java CI with Gradle
 
 on:
-  push:
-    branches: [ "master" ]
   pull_request:
+    types: ["closed"]   # 🚀 Só executa quando o PR for fechado
     branches: [ "master" ]
 
 jobs:
