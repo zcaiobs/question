@@ -3,7 +3,6 @@ FROM gradle:7.3.3-jdk17 AS build
 
 # Instalar dependências adicionais necessárias para o sistema de arquivos
 RUN apt-get update && apt-get install -y \
-    fslint \
     procps \
     lsof \
     && rm -rf /var/lib/apt/lists/*
