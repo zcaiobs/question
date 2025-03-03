@@ -46,7 +46,7 @@ jobs:
       # Definir nome da imagem e tag
       - name: Set image name and tag variables
         run: |
-          IMAGE_NAME=${{ secrets.IMAGE_NAME }}  # Pegando o nome da imagem dos secrets
+          IMAGE_NAME=${{ vars.IMAGE_NAME }}  # Pegando o nome da imagem dos secrets
           IMAGE_TAG=${{ github.sha }}           # Pegando o hash do commit como tag
 
       - name: Set up Docker Buildx
@@ -57,7 +57,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
 
       - name: Build Docker image
         run: |
