@@ -15,6 +15,7 @@ on:
 
 jobs:
   build:
+    environment: secrets
     runs-on: ubuntu-latest
 
     steps:
@@ -43,6 +44,32 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Check secrets environment variables
+        run: |
+          echo "AWS Region: ${{ secrets.AWS_REGION }}"
+
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}  # Utilize os secrets configurados
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t question-image-ecr .
+
+      - name: Tag Docker image
+        run: |
+          docker tag question-image-ecr:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/question-image-ecr:latest
+
+      - name: Push Docker image to ECR
+        run: |
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/question-image-ecr:latest
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
