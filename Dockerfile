@@ -3,7 +3,7 @@ FROM gradle:7.3.3-jdk17 AS build
 WORKDIR /app
 
 # Copia apenas arquivos necessários para dependências, otimizando cache
-COPY build.gradle settings.gradle gradlew ./
+COPY app/build.gradle app/settings.gradle app/gradlew ./
 RUN chmod +x gradlew && ./gradlew dependencies
 
 # Copia todo o projeto
